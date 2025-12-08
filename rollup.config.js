@@ -65,7 +65,16 @@ const plugins = [
     },
   }),
   watch && serve(serveopts),
-  !dev && terser(),
+  !dev &&
+    terser({
+      ecma: 2019,
+      compress: {
+        ecma: 2019,
+      },
+      format: {
+        ecma: 2019,
+      },
+    }),
   visualizer({
     filename: 'visualizations/treemap.html',
     template: 'treemap',

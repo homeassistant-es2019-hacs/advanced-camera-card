@@ -19,7 +19,7 @@ export default defineConfig([
 
     languageOptions: {
       parser: tsParser,
-      ecmaVersion: 2020,
+      ecmaVersion: 2019,
       sourceType: 'module',
     },
 
