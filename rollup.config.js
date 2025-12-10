@@ -3,6 +3,7 @@ import image from '@rollup/plugin-image';
 import json from '@rollup/plugin-json';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import { babel } from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import gitInfo from 'rollup-plugin-git-info';
@@ -55,7 +56,25 @@ const plugins = [
     inlineSources: dev,
     exclude: ['dist/**', 'tests/**/*.test.ts'],
   }),
-  json({ exclude: 'package.json' }),
+  babel({
+    babelHelpers: 'bundled',
+    include: ['src/**', 'node_modules/**'],
+    extensions: ['.js', '.ts'],
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: { chrome: '81' },
+          modules: false,
+        },
+      ],
+    ],
+    plugins: [
+      '@babel/plugin-proposal-optional-chaining',
+      '@babel/plugin-proposal-nullish-coalescing-operator',
+    ],
+  }),
+  json({ exclude: '**/package.json' }),
   replace({
     preventAssignment: true,
     values: {
